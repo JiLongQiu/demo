@@ -2,6 +2,7 @@ package com.jilong.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * @author jilong.qiu
@@ -79,10 +80,25 @@ public class TrieTree {
     }
 
     public void print() {
-        System.out.println("begin----------");
         print(root, new StringBuilder());
-        System.out.println("------------end");
     }
+
+    public List<String> search(String search) {
+        int len = search.length();
+        Node<Character> searchPN = root;
+        for (int i = 0; i < len; i++) {
+            char c = search.charAt(i);
+            List<Node<Character>> matchNs = searchPN.matchChildren(matcher, c);
+
+        }
+    }
+
+    private final BiFunction<Node<Character>, Character, Boolean> matcher = new BiFunction<Node<Character>, Character, Boolean>() {
+        @Override
+        public Boolean apply(Node<Character> node, Character c) {
+            return true;
+        }
+    };
 
 
 }

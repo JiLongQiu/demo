@@ -2,6 +2,8 @@ package com.jilong.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * @author jilong.qiu
@@ -41,6 +43,10 @@ public class Node<T> {
             }
         }
         return null;
+    }
+
+    public List<Node<T>> matchChildren(BiFunction<Node<T>, T, Boolean> matcher, T data) {
+        return getChildren().stream().filter(item -> matcher.apply(item, data)).collect(Collectors.toList());
     }
 
     public Node<T> getChildren(int index) {
