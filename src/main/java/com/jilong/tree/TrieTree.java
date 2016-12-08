@@ -1,6 +1,7 @@
 package com.jilong.tree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -91,6 +92,7 @@ public class TrieTree {
             List<Node<Character>> matchNs = searchPN.matchChildren(matcher, c);
 
         }
+        return Collections.emptyList();
     }
 
     private final BiFunction<Node<Character>, Character, Boolean> matcher = new BiFunction<Node<Character>, Character, Boolean>() {
