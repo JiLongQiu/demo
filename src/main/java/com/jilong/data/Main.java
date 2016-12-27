@@ -10,7 +10,8 @@ import com.jilong.data.tree.TreePrinter;
 public class Main {
 
     public static void main(String[] args) {
-        Node<Integer> root = TreeDemo.balance(new Integer[] {1, 2, 3, 4, 5, 6});
+        Node<Integer> root = BalanceTree.balance(new Integer[] {1, 2, 3, 4, 5, 6, 10, 11, 12});
+        Node<Integer> root2 = BalanceTree.balanceTwo(new Integer[] {1, 2, 3, 4, 5});
 //        Node<Integer> root = new Node<>(1);
 //        root.left = new Node<>(2);
 //        root.right = new Node<>(6);
@@ -18,10 +19,11 @@ public class Main {
 //        root.left.right = new Node<>(4);
 //        root.left.right.left = new Node<>(5);
         TreePrinter.one(root);
-    }
-
-    private static <T> void one(Node<T> root) {
-
+        TreePrinter.one(root2);
+        TreePrinter.two(root);
+        TreePrinter.two(root2);
+//        TreePrinter.three(root);
+//        TreePrinter.three(root2);
     }
 
 }

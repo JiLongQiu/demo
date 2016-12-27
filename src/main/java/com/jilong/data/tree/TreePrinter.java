@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
  */
 public class TreePrinter {
 
+    /**
+     * 遍历二叉树 中序
+     */
     public static <T> void one(Node<T> root) {
         Stack<Node<T>> stack = new Stack<>();
         Node<T> index = root;
@@ -39,9 +42,69 @@ public class TreePrinter {
         print(list);
     }
 
-    public static <T> void two(Node<T> root) {
 
+
+    /**
+     * 遍历二叉树 先序
+     */
+    public static <T> void two(Node<T> root) {
+        Stack<Node<T>> stack = new Stack<>();
+        Node<T> index = root;
+        List<Node<T>> list = Lists.newArrayList();
+        while (true) {
+            list.add(index);
+            if (index.right != null) {
+                stack.push(index.right);
+            }
+            if (index.left != null) {
+                index = index.left;
+            } else {
+                if (stack.isEmpty()) {
+                    break;
+                }
+                index = stack.pop();
+            }
+        }
+        print(list);
     }
+
+    /**
+     * 遍历二叉树 后序
+     */
+    public static <T> void three(Node<T> root) {
+        Stack<Node<T>> stack = new Stack<>();
+        Node<T> index = root;
+        List<Node<T>> list = Lists.newArrayList();
+        boolean inserting = true;
+        while (true) {
+            stack.push(index);
+            if (inserting) {
+                if (index.right != null) {
+                    stack.push(index.right);
+                }
+                if (index.left == null) {
+                    if (index.right == null) {
+                        list.add(index);
+                        stack.pop();
+                        if (stack.isEmpty()) {
+                            break;
+                        }
+                        index = stack.pop();
+                    } else {
+                        index = index.right;
+                        stack.pop();
+                    }
+                } else {
+                    index = index.left;
+                    inserting = true;
+                }
+            } else {
+
+            }
+        }
+        print(list);
+    }
+
 
     private static <T> void print(List<Node<T>> list) {
         System.out.println(Joiner.on(' ').join(list.stream().map(node -> node.data).collect(Collectors.toList())));

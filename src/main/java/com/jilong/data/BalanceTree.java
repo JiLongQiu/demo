@@ -9,24 +9,20 @@ import java.util.List;
  * @author jilong.qiu
  * @date 2016/12/20.
  */
-public class TreeDemo {
+public class BalanceTree {
 
-    public static Node<Integer> balance(Integer[] ints) {
-        return geneRoot(ints);
+    public static <T> Node<T> balance(T[] values) {
+        return geneRoot(values, 0, values.length - 1);
     }
 
-    private static Node<Integer> geneRoot(Integer[] ints) {
-        return geneRoot(ints, 0, ints.length - 1);
-    }
-
-    private static Node<Integer> geneRoot(Integer[] ints, int start, int end) {
+    private static <T> Node<T> geneRoot(T[] values, int start, int end) {
         int mid = (start + end) / 2;
-        Node<Integer> root = new Node<>(ints[mid]);
+        Node<T> root = new Node<>(values[mid]);
         if (mid > start) {
-            root.left = geneRoot(ints, start, mid - 1);
+            root.left = geneRoot(values, start, mid - 1);
         }
         if (mid < end) {
-            root.right = geneRoot(ints, mid + 1, end);
+            root.right = geneRoot(values, mid + 1, end);
         }
         return root;
     }
@@ -45,7 +41,7 @@ public class TreeDemo {
         }
     }
 
-    public static <T> Node<T> balance(T[] values) {
+    public static <T> Node<T> balanceTwo(T[] values) {
         List<Item<T>> list = Lists.newArrayList();
         int mid = (values.length - 1)  / 2;
         Node<T> root = new Node<>(values[mid]);
