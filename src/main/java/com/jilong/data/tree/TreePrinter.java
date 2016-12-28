@@ -42,8 +42,6 @@ public class TreePrinter {
         print(list);
     }
 
-
-
     /**
      * 遍历二叉树 先序
      */
@@ -75,31 +73,43 @@ public class TreePrinter {
         Stack<Node<T>> stack = new Stack<>();
         Node<T> index = root;
         List<Node<T>> list = Lists.newArrayList();
-        boolean inserting = true;
+        boolean revert = false;
         while (true) {
-            stack.push(index);
-            if (inserting) {
+            boolean isEmpty = false;
+            while (revert) {
+                list.add(index);
+                if (stack.isEmpty()) {
+                    isEmpty = true;
+                    break;
+                }
+                Node<T> old = index;
+                index = stack.pop();
+                revert = old == index.left || old == index.right;
+            }
+            if (isEmpty) {
+                break;
+            }
+            if (index.left == null) {
+                if (index.right == null) {
+                    list.add(index);
+                    if (stack.isEmpty()) {
+                        break;
+                    }
+                    Node<T> old = index;
+                    index = stack.pop();
+                    if (old == index.left || old == index.right) {
+                        revert = true;
+                    }
+                } else {
+                    stack.push(index);
+                    index = index.right;
+                }
+            } else {
+                stack.push(index);
                 if (index.right != null) {
                     stack.push(index.right);
                 }
-                if (index.left == null) {
-                    if (index.right == null) {
-                        list.add(index);
-                        stack.pop();
-                        if (stack.isEmpty()) {
-                            break;
-                        }
-                        index = stack.pop();
-                    } else {
-                        index = index.right;
-                        stack.pop();
-                    }
-                } else {
-                    index = index.left;
-                    inserting = true;
-                }
-            } else {
-
+                index = index.left;
             }
         }
         print(list);
