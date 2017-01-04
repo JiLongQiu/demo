@@ -1,5 +1,7 @@
 package com.jilong.tree;
 
+import com.jilong.split.MatchResult;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -89,10 +91,32 @@ public class TrieTree {
         Node<Character> searchPN = root;
         for (int i = 0; i < len; i++) {
             char c = search.charAt(i);
-            List<Node<Character>> matchNs = searchPN.matchChildren(matcher, c);
+            Node<Character> cNode = searchPN.findChildren(c);
 
         }
         return Collections.emptyList();
+    }
+
+    public MatchResult indexMaxLenSuffix(char[] str, int start, int end) {
+        Node<Character> searchN = root;
+        MatchResult result = new MatchResult();
+        int i;
+        for (i = start; i <= end; i ++) {
+            Node<Character> findN = searchN.findChildren(str[i]);
+            if (findN != null) {
+                searchN = findN;
+            } else {
+                break;
+            }
+        }
+        if (i > start) {
+            result.maxIndex = i - 1;
+            result.contains = searchN.isEnd();
+        } else {
+            result.maxIndex = -1;
+            result.contains = false;
+        }
+        return result;
     }
 
     private final BiFunction<Node<Character>, Character, Boolean> matcher = new BiFunction<Node<Character>, Character, Boolean>() {

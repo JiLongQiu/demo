@@ -18,7 +18,7 @@ public class SimpleDictionary implements Dictionary {
         this.keyWords.sort((o1, o2) -> Integer.compare(o1.length(), o2.length()));
     }
 
-    public int indexMaxLenSuffix(char[] chars, int start, int end) {
+    public MatchResult indexMaxLenSuffix(char[] chars, int start, int end) {
         List<String> searchList = keyWords;
         int i = start;
         for (; i <= end; i++) {
@@ -30,21 +30,21 @@ public class SimpleDictionary implements Dictionary {
             }
             searchList = list;
         }
+        MatchResult result = new MatchResult();
+        result.contains = false;
         if (i > start) {
-            return i - 1;
-        }
-        return -1;
-    }
-
-    @Override
-    public boolean contains(char[] chars, int start, int end) {
-        String str = new String(chars, start, end - start + 1);
-        for (String item : keyWords) {
-            if (item.equals(str)) {
-                return true;
+            result.maxIndex = i - 1;
+            String str = new String(chars, start, i - start);
+            for (String s : searchList) {
+                if (s.equals(str)) {
+                    result.contains = true;
+                    break;
+                }
             }
+        } else {
+            result.maxIndex = -1;
         }
-        return false;
+        return result;
     }
 
     public static void main(String[] args) {

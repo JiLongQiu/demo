@@ -6,8 +6,6 @@ package com.jilong.split;
  */
 public interface Dictionary {
 
-    int indexMaxLenSuffix(char[] str, int start, int end);
-
-    boolean contains(char[] str, int start, int end);
+    MatchResult indexMaxLenSuffix(char[] str, int start, int end);
 
 }

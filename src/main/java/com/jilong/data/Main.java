@@ -24,6 +24,8 @@ public class Main {
         TreePrinter.two(root2);
         TreePrinter.three(root);
         TreePrinter.three(root2);
+        TreePrinter.threeV2(root);
+        TreePrinter.threeV2(root2);
     }
 
 }

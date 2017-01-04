@@ -115,6 +115,47 @@ public class TreePrinter {
         print(list);
     }
 
+    public static <T> void threeV2(Node<T> root) {
+        Stack<Node<T>> stack = new Stack<>();
+        Node<T> index = root;
+        List<Node<T>> list = Lists.newArrayList();
+        while (true) {
+            if (index.left == null) {
+                if (index.right == null) {
+                    list.add(index);
+                    if (stack.empty()) {
+                        break;
+                    }
+                    Node<T> lastN = index;
+                    index = stack.pop();
+                    boolean isEmpty = false;
+                    while (lastN == index.left || lastN == index.right) {
+                        list.add(index);
+                        if (stack.empty()) {
+                            isEmpty = true;
+                            break;
+                        }
+                        lastN = index;
+                        index = stack.pop();
+                    }
+                    if (isEmpty) {
+                        break;
+                    }
+                } else {
+                    stack.push(index);
+                    index = index.right;
+                }
+            } else {
+                stack.push(index);
+                if (index.right != null) {
+                    stack.push(index.right);
+                }
+                index = index.left;
+            }
+        }
+        print(list);
+    }
+
 
     private static <T> void print(List<Node<T>> list) {
         System.out.println(Joiner.on(' ').join(list.stream().map(node -> node.data).collect(Collectors.toList())));
