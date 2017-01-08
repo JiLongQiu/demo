@@ -161,4 +161,74 @@ public class TreePrinter {
         System.out.println(Joiner.on(' ').join(list.stream().map(node -> node.data).collect(Collectors.toList())));
     }
 
+    public static <T> void draw(Node<T> root) {
+        List<List<Node<T>>> layerNs = Lists.newArrayList();
+        List<Node<T>> nowLayerNs = Lists.newArrayList();
+        nowLayerNs.add(root);
+        List<Node<T>> nextLayerNs;
+        do {
+            layerNs.add(nowLayerNs);
+            nextLayerNs = Lists.newArrayList();
+            for (Node<T> node : nowLayerNs) {
+                if (node == null) {
+                    nextLayerNs.add(null);
+                    nextLayerNs.add(null);
+                } else {
+                    nextLayerNs.add(node.left);
+                    nextLayerNs.add(node.right);
+                }
+            }
+            nowLayerNs = nextLayerNs;
+        } while (nowLayerNs.stream().filter(item -> item != null).count() > 0);
+        printLayerNs(layerNs);
+    }
+
+    private static class LayerIndex {
+        public int left;
+        public int right;
+        public int index;
+
+        public LayerIndex(int index, int left, int right) {
+            this.index = index;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    private static <T> void printLayerNs(List<List<Node<T>>> layerNs) {
+        int layerCount = layerNs.size();
+        int maxCount = 1;
+        for (int i = 1; i < layerCount; i++) {
+            maxCount = 1 + 2 * maxCount;
+        }
+        List<List<LayerIndex>> layerIndexes = Lists.newArrayList();
+        List<LayerIndex> nowLayIndex = Lists.newArrayList();
+        nowLayIndex.add(new LayerIndex((maxCount + 1) / 2, 1, maxCount));
+        layerIndexes.add(nowLayIndex);
+        for (int i = 1; i < layerCount; i++) {
+            List<LayerIndex> nextLayerIndex = Lists.newArrayList();
+            for (LayerIndex nowItem : nowLayIndex) {
+                nextLayerIndex.add(new LayerIndex((nowItem.left + nowItem.index - 1) / 2, nowItem.left, nowItem.index - 1));
+                nextLayerIndex.add(new LayerIndex((nowItem.index + nowItem.right + 1) / 2, nowItem.index + 1, nowItem.right));
+            }
+            layerIndexes.add(nextLayerIndex);
+            nowLayIndex = nextLayerIndex;
+        }
+        char empty = ' ';
+        for (int i = 0; i < layerCount; i++) {
+            List<Integer> li = layerIndexes.get(i).stream().map(item -> item.index).collect(Collectors.toList());
+            List<Node<T>> ns = layerNs.get(i);
+            for (int j = 1; j <= maxCount; j++) {
+                int indexOf;
+                if ((indexOf = li.indexOf(j)) >= 0) {
+                    Node<T> n = ns.get(indexOf);
+                    System.out.print(n == null ? '*' : n.data);
+                } else {
+                    System.out.print(empty);
+                }
+            }
+            System.out.println();
+        }
+    }
+
 }
