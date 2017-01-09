@@ -27,6 +27,14 @@ public class Main {
         TreePrinter.threeV2(root);
         TreePrinter.threeV2(root2);
         TreePrinter.draw(root);
+
+        Node<Character> root3 = BalanceTree.gene2(new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'}, new Character[]{'C', 'B', 'E', 'D', 'G', 'F', 'A', 'J', 'H', 'K', 'M', 'L', 'N'});
+        TreePrinter.draw(root3);
+        TreePrinter.three(root3);
+        Node<Character> root4 = BalanceTree.gene(new Character[] {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'},
+            new Character[] {'C', 'B', 'E', 'D', 'G', 'F', 'A', 'J', 'H', 'K', 'M', 'L', 'N'});
+        TreePrinter.draw(root4);
+        TreePrinter.three(root4);
     }
 
 }

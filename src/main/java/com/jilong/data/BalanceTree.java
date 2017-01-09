@@ -76,4 +76,97 @@ public class BalanceTree {
         return root;
     }
 
+    public static <T> Node<T> gene(T[] firstVal, T[] midVal) {
+        return gene(firstVal, 0, firstVal.length - 1, midVal, 0, midVal.length - 1);
+    }
+
+    private static <T> Node<T> gene(T[] firstVal, int firstL, int firstR, T[] midVal, int midL, int midR) {
+        T rootVal = firstVal[firstL];
+        Node<T> root = new Node<>(rootVal);
+        int midValRootIndex = -1;
+        for (int i = 0; i < midVal.length; i++) {
+            if (midVal[i].equals(rootVal)) {
+                midValRootIndex = i;
+                break;
+            }
+        }
+        if (midValRootIndex == -1) {
+            throw new RuntimeException("");
+        }
+        int leftTreeLen = midValRootIndex - midL;
+        if (leftTreeLen > 0) {
+            root.left = gene(firstVal, firstL + 1, firstL + leftTreeLen, midVal, midL, midL + leftTreeLen - 1);
+        } else {
+            root.left = null;
+        }
+        int rightTreeLen = midR - midValRootIndex;
+        if (rightTreeLen > 0) {
+            root.right = gene(firstVal, firstR - rightTreeLen + 1, firstR, midVal, midValRootIndex + 1, midR);
+        } else {
+            root.right = null;
+        }
+        return root;
+    }
+
+    private static class IndexPair<T> {
+        public int firstL;
+        public int firstR;
+        public int midL;
+        public int midR;
+        public boolean isLeftTree;
+        public Node<T> parentN;
+
+        public IndexPair(int firstL, int firstR, int midL, int midR, boolean isLeftTree, Node<T> parentN) {
+            this.firstL = firstL;
+            this.firstR = firstR;
+            this.midL = midL;
+            this.midR = midR;
+            this.isLeftTree = isLeftTree;
+            this.parentN = parentN;
+        }
+    }
+
+    public static <T> Node<T> gene2(T[] firstVal, T[] midVal) {
+        List<IndexPair> nowLayer = Lists.newArrayList();
+        nowLayer.add(new IndexPair<>(0, firstVal.length - 1, 0, midVal.length - 1, false, null));
+        List<IndexPair> nextLayer;
+        Node<T> root = null;
+        do {
+            nextLayer = Lists.newArrayList();
+            for (IndexPair pair : nowLayer) {
+                T treeVal = firstVal[pair.firstL];
+                Node<T> treeRoot = new Node<>(treeVal);
+                int midValRootIndex = -1;
+                for (int i = 0; i < midVal.length; i++) {
+                    if (midVal[i].equals(treeVal)) {
+                        midValRootIndex = i;
+                        break;
+                    }
+                }
+                if (midValRootIndex == -1) {
+                    throw new RuntimeException("");
+                }
+                if (root == null) {
+                    root = treeRoot;
+                } else {
+                    if (pair.isLeftTree) {
+                        pair.parentN.left = treeRoot;
+                    } else {
+                        pair.parentN.right = treeRoot;
+                    }
+                }
+                int leftTreeLen = midValRootIndex - pair.midL;
+                if (leftTreeLen > 0) {
+                    nextLayer.add(new IndexPair<>(pair.firstL + 1, pair.firstL + leftTreeLen, pair.midL, pair.midL + leftTreeLen - 1, true, treeRoot));
+                }
+                int rightTreeLen = pair.midR - midValRootIndex;
+                if (rightTreeLen > 0) {
+                    nextLayer.add(new IndexPair<>(pair.firstR - rightTreeLen + 1, pair.firstR, midValRootIndex + 1, pair.midR, false, treeRoot));
+                }
+            }
+            nowLayer = nextLayer;
+        } while (!nextLayer.isEmpty());
+        return root;
+    }
+
 }
