@@ -87,7 +87,7 @@ public class MaxThreadPool {
         System.out.println("add success");
         RecursiveTask task = new MaxTask(ints, pool);
         long start = System.currentTimeMillis();
-        pool.submit(task);
+        pool.submit((Callable)task);
         try {
             System.out.println(task.get());
             System.out.println(System.currentTimeMillis() - start);
