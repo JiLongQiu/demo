@@ -2,8 +2,7 @@ package com.jilong.array;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 全排列算法 递归
