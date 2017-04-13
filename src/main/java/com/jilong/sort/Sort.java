@@ -25,6 +25,12 @@ public class Sort {
         ints[r] = mid;
     }
 
+    private void swap(int[] ints, int l, int r) {
+        int mid = ints[l];
+        ints[l] = ints[r];
+        ints[r] = mid;
+    }
+
     public void quickSort(Integer[] ints) {
         Stack<Pair<Integer>> stack = new Stack<>();
         stack.push(new Pair<>(0, ints.length - 1));
@@ -94,13 +100,52 @@ public class Sort {
 
     public static void main(String[] args) {
         Sort sort = new Sort();
-        Integer[] ints = gene();
-        sort.heapSort(ints);
+        int[] ints = gene();
+        sort.heap(ints);
         System.out.println(Arrays.toString(ints));
     }
 
-    private static Integer[] gene() {
-        return new Integer[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+    private static int[] gene() {
+        return new int[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+    }
+
+    private void heap0(int[] ints, int swapIndex) {
+        int lc = swapIndex * 2 + 1;
+        int rc = swapIndex * 2 + 2;
+        if (ints[swapIndex] < ints[lc]) {
+
+        }
+    }
+
+    private void heap(int[] ints) {
+        int length = ints.length;
+        int l = 0, r = length - 1;
+
+        int mid = (ints.length - 2) / 2;
+        for (int i = mid; i >= 0; i--) {
+            int lc = i * 2 + 1;
+            int rc = i * 2 + 2;
+            int swapIndex = -1;
+            if (rc > ints.length - 1) {
+                if (ints[lc] > ints[i]) {
+                    swapIndex = lc;
+                }
+            } else {
+                if (ints[lc] > ints[rc]) {
+                    if (ints[i] < ints[lc]) {
+                        swapIndex = lc;
+                    }
+                } else {
+                    if (ints[i] < ints[rc]) {
+                        swapIndex = rc;
+                    }
+                }
+            }
+            if (swapIndex > 0) {
+                swap(ints, swapIndex, i);
+                heap0(ints, swapIndex);
+            }
+        }
     }
 
 }
