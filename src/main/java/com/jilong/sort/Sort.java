@@ -1,7 +1,7 @@
 package com.jilong.sort;
 
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -106,45 +106,41 @@ public class Sort {
     }
 
     private static int[] gene() {
-        return new int[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+//        return new int[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+        Random r = new Random();
+        List<Integer> ints = r.ints(10000000).boxed().collect(Collectors.toList());
+        int[] result = new int[ints.size()];
+        for (int i = 0; i < ints.size(); i++) {
+            result[i] = ints.get(i);
+        }
+        return result;
     }
 
-    private void heap0(int[] ints, int swapIndex) {
-        int lc = swapIndex * 2 + 1;
-        int rc = swapIndex * 2 + 2;
-        if (ints[swapIndex] < ints[lc]) {
-
+    private void heap0(int[] ints, int start, int end) {
+        int index = start;
+        while (true) {
+            int lc = index * 2 + 1, rc = index * 2 + 2;
+            if (lc > end) break;
+            int lrMax = rc > end ? lc : ints[lc] > ints[rc] ? lc : rc;
+            if (ints[index] < ints[lrMax]) {
+                swap(ints, index, lrMax);
+                index = lrMax;
+                continue;
+            }
+            break;
         }
     }
 
+//    N*logN + N*logN
     private void heap(int[] ints) {
-        int length = ints.length;
-        int l = 0, r = length - 1;
-
-        int mid = (ints.length - 2) / 2;
-        for (int i = mid; i >= 0; i--) {
-            int lc = i * 2 + 1;
-            int rc = i * 2 + 2;
-            int swapIndex = -1;
-            if (rc > ints.length - 1) {
-                if (ints[lc] > ints[i]) {
-                    swapIndex = lc;
-                }
-            } else {
-                if (ints[lc] > ints[rc]) {
-                    if (ints[i] < ints[lc]) {
-                        swapIndex = lc;
-                    }
-                } else {
-                    if (ints[i] < ints[rc]) {
-                        swapIndex = rc;
-                    }
-                }
-            }
-            if (swapIndex > 0) {
-                swap(ints, swapIndex, i);
-                heap0(ints, swapIndex);
-            }
+//        N*logN
+        for (int i = (ints.length - 2) / 2; i >= 0; i--) {
+            heap0(ints, i, ints.length - 1);
+        }
+//        N*logN
+        for (int i = 0; i < ints.length - 1; i++) {
+            swap(ints, 0, ints.length - 1 - i);
+            heap0(ints, 0, ints.length - 1 - i - 1);
         }
     }
 
