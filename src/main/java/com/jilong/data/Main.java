@@ -3,6 +3,8 @@ package com.jilong.data;
 import com.jilong.data.tree.Node;
 import com.jilong.data.tree.TreePrinter;
 
+import java.util.PriorityQueue;
+
 /**
  * @author jilong.qiu
  * @date 2016/12/26.
