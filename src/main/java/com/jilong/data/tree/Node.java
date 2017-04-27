@@ -8,6 +8,7 @@ public class Node<T> {
 
     public Node<T> left;
     public Node<T> right;
+    public Node<T> parent;
     public T data;
     public int balance;
     public int depth = 1;
@@ -28,6 +29,11 @@ public class Node<T> {
         int rightDepth = right == null ? 0 : right.depth;
         depth = Math.max(leftDepth, rightDepth) + 1;
         return depth;
+    }
+
+    public void computeAll() {
+        computeBalance();
+        computeDepth();
     }
 
 }
