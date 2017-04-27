@@ -11,6 +11,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
+        lockInterrupt();
+    }
+
+    private static void lockInterrupt() throws InterruptedException {
         Lock lock = new ReentrantLock();
         Thread t1 = new MyThread(lock);
         Thread t2 = new MyThread(lock);

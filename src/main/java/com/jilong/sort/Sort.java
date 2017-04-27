@@ -1,7 +1,7 @@
 package com.jilong.sort;
 
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -21,6 +21,12 @@ public class Sort {
 
     private void swap(Integer[] ints, int l, int r) {
         Integer mid = ints[l];
+        ints[l] = ints[r];
+        ints[r] = mid;
+    }
+
+    private void swap(int[] ints, int l, int r) {
+        int mid = ints[l];
         ints[l] = ints[r];
         ints[r] = mid;
     }
@@ -94,13 +100,48 @@ public class Sort {
 
     public static void main(String[] args) {
         Sort sort = new Sort();
-        Integer[] ints = gene();
-        sort.heapSort(ints);
+        int[] ints = gene();
+        sort.heap(ints);
         System.out.println(Arrays.toString(ints));
     }
 
-    private static Integer[] gene() {
-        return new Integer[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+    private static int[] gene() {
+//        return new int[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+        Random r = new Random();
+        List<Integer> ints = r.ints(10000000).boxed().collect(Collectors.toList());
+        int[] result = new int[ints.size()];
+        for (int i = 0; i < ints.size(); i++) {
+            result[i] = ints.get(i);
+        }
+        return result;
+    }
+
+    private void heap0(int[] ints, int start, int end) {
+        int index = start;
+        while (true) {
+            int lc = index * 2 + 1, rc = index * 2 + 2;
+            if (lc > end) break;
+            int lrMax = rc > end ? lc : ints[lc] > ints[rc] ? lc : rc;
+            if (ints[index] < ints[lrMax]) {
+                swap(ints, index, lrMax);
+                index = lrMax;
+                continue;
+            }
+            break;
+        }
+    }
+
+//    N*logN + N*logN
+    private void heap(int[] ints) {
+//        N*logN
+        for (int i = (ints.length - 2) / 2; i >= 0; i--) {
+            heap0(ints, i, ints.length - 1);
+        }
+//        N*logN
+        for (int i = 0; i < ints.length - 1; i++) {
+            swap(ints, 0, ints.length - 1 - i);
+            heap0(ints, 0, ints.length - 1 - i - 1);
+        }
     }
 
 }
