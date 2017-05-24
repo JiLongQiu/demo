@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="parentDataSource" abstract="true" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="maxActive" value="30"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxIdle" value="15"/>
+        <property name="maxWait" value="3000"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="validationQuery" value="select 1"/>
+    </bean>
+
+    <bean id="jskzDataSource" parent="parentDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.ReplicationDriver"/>
+        <property name="url" value="${jskz.master.url}"/>
+        <property name="username" value="${jskz.master.username}"/>
+        <property name="password" value="${jskz.master.password}"/>
+    </bean>
+
+    <bean id="jskzSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="failFast" value="true"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="dataSource" ref="jskzDataSource"/>
+        <property name="configLocation" value="classpath:conf/mybatis.xml"/>
+    </bean>
+
+    <bean id="jskzMapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.jilong.search.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="jskzSqlSessionFactory"/>
+    </bean>
+
+</beans>

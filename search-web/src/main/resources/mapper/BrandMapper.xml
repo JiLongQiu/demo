@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jilong.search.dao.JskzUserDao">
+
+    <select id="get" resultType="User">
+        SELECT id, age, nickname `name` FROM food_user
+        WHERE id = #{userId}
+    </select>
+
+</mapper>
