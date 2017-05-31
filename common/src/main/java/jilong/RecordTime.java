@@ -1,9 +1,11 @@
 package jilong;
 
+import com.google.common.collect.Lists;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * @author jilong.qiu
@@ -18,7 +20,37 @@ public class RecordTime {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(Files.readAllLines(Paths.get("D:/1223.txt")));
+        List<List<Integer>> arrays = Lists.newArrayList();
+        arrays.add(Lists.newArrayList(1, 5, 9));
+        arrays.add(Lists.newArrayList(3, 4, 6));
+        arrays.add(Lists.newArrayList(2, 7, 8));
+        List<Integer> indict = arrays.stream().map(item -> 0).collect(Collectors.toList());
+        List<Integer> ret = Lists.newArrayList();
+        Integer minArrayIndex;
+        while (true) {
+            Integer min = Integer.MAX_VALUE;
+            minArrayIndex = -1;
+            for (int i = 0; i < arrays.size(); i++) {
+                Integer nowIndex = indict.get(i);
+                List<Integer> nowArray = arrays.get(i);
+                if (nowIndex >= nowArray.size()) {
+                    continue;
+                }
+                Integer val = nowArray.get(nowIndex);
+                if (val < min) {
+                    min = val;
+                    minArrayIndex = i;
+                }
+            }
+            if (minArrayIndex >= 0) {
+                ret.add(min);
+                indict.set(minArrayIndex, indict.get(minArrayIndex) + 1);
+            } else {
+                break;
+            }
+        };
+        System.out.println(ret);
+
     }
 
 }

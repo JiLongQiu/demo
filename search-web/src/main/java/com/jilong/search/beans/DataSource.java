@@ -13,8 +13,6 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author jilong.qiu
@@ -28,7 +26,6 @@ public class DataSource {
 
     @Bean
     public TransportClient esClient() throws UnknownHostException {
-        Condition cd = new ReentrantLock().newCondition();
         client = new PreBuiltTransportClient(Settings.EMPTY)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("123.57.72.26"), 9300));
         return client;
