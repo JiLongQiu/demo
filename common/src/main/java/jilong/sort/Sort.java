@@ -1,7 +1,7 @@
 package jilong.sort;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * @author Administrator
@@ -101,19 +101,19 @@ public class Sort {
     public static void main(String[] args) {
         Sort sort = new Sort();
         int[] ints = gene();
-        sort.heap(ints);
+        sort.bound2(ints);
         System.out.println(Arrays.toString(ints));
     }
 
     private static int[] gene() {
-//        return new int[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
-        Random r = new Random();
-        List<Integer> ints = r.ints(10000000).boxed().collect(Collectors.toList());
-        int[] result = new int[ints.size()];
-        for (int i = 0; i < ints.size(); i++) {
-            result[i] = ints.get(i);
-        }
-        return result;
+        return new int[] {24, 58, 17, 79, 27, 30, 8, 80, 12};
+//        Random r = new Random();
+//        List<Integer> ints = r.ints(1000).boxed().collect(Collectors.toList());
+//        int[] result = new int[ints.size()];
+//        for (int i = 0; i < ints.size(); i++) {
+//            result[i] = ints.get(i);
+//        }
+//        return result;
     }
 
     private void heap0(int[] ints, int start, int end) {
@@ -141,6 +141,19 @@ public class Sort {
         for (int i = 0; i < ints.length - 1; i++) {
             swap(ints, 0, ints.length - 1 - i);
             heap0(ints, 0, ints.length - 1 - i - 1);
+        }
+    }
+
+    public void bound2(int[] ints) {
+        for (int i = 0; i < ints.length;) {
+            int lastSwap = 0;
+            for(int j = 0; j < ints.length - i - 1; j++) {
+                if (ints[j] > ints[j + 1]) {
+                    swap(ints, j, j + 1);
+                    lastSwap = j + 1;
+                }
+            }
+            i = ints.length - lastSwap;
         }
     }
 

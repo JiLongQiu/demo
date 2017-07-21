@@ -116,10 +116,10 @@ public class MyQueue<T extends Comparable<? super T>> extends AbstractQueue<T> {
         }
         System.out.println();
         queue.printInfo();
-//        while (queue.peek() != null) {
-//            Integer t = queue.poll();
-//            System.out.println(t);
-//        }
+        while (queue.peek() != null) {
+            Integer t = queue.poll();
+            System.out.println(t);
+        }
         queue.printInfo();
     }
 

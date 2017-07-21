@@ -2,7 +2,7 @@ package jilong.data;
 
 import jilong.data.tree.Node;
 import jilong.data.tree.TreePrinter;
-import jilong.data.tree.TreePrinter3;
+import jilong.data.tree.TreePrinter4;
 
 /**
  * @author jilong.qiu
@@ -20,7 +20,7 @@ public class Main {
 //        root.left.right = new Node<>(4);
 //        root.left.right.left = new Node<>(5);
         TreePrinter.draw(root);
-        TreePrinter3.three(root);
+        TreePrinter4.one(root);
 //        TreePrinter2.three(root);
 //        TreePrinter.one(root2);
 //        TreePrinter.two(root);

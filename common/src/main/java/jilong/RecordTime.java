@@ -31,7 +31,7 @@ public class RecordTime {
             Integer min = Integer.MAX_VALUE;
             minArrayIndex = -1;
             for (int i = 0; i < arrays.size(); i++) {
-                Integer nowIndex = indict.get(i);
+                Integer nowIndex = indict.  get(i);
                 List<Integer> nowArray = arrays.get(i);
                 if (nowIndex >= nowArray.size()) {
                     continue;
@@ -46,11 +46,11 @@ public class RecordTime {
                 ret.add(min);
                 indict.set(minArrayIndex, indict.get(minArrayIndex) + 1);
             } else {
+                System.out.println();
                 break;
             }
         };
         System.out.println(ret);
-
     }
 
 }
